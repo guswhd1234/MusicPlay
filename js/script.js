@@ -6,7 +6,7 @@ const musicList = [
     {name:"Tantalizing Youth", artist:"Social_Square", audio:"Tantalizing_Youth", img:"album5", total:"04:12" },
     {name:"The Deep", artist:"Anitek", audio:"The_Deep", img:"album6", total:"02:24" },
 ];
-
+ 
 
 const musicApp = document.querySelector('.player_body');
 const musicAudio = musicApp.querySelector('#mainAudio');    
@@ -22,8 +22,13 @@ const progressive = musicApp.querySelector('.progress');
 const progressBar = musicApp.querySelector('.bar');
 const prevBtn = musicApp.querySelector('#prevBtn');
 const nextBtn = musicApp.querySelector('#nextBtn');
-const volumeBtn=musicApp.querySelector('.volumeBtn');
-const volumeRange=musicApp.querySelector('#rangebar');
+
+/* 테스트 개선 사항 */
+const volumeBtn=musicApp.querySelector('#vulume-btn');
+const volumeCtrl= musicApp.querySelector('#volume-ctrl')
+const volumeRange=musicApp.querySelector('.volumerange');
+musicAudio.volume = 0.5;
+
 //----------------------------
 const loadMusic = (num) =>{
 musicAudio.src = `songs/${musicList[num].audio}.mp3`;
@@ -63,6 +68,7 @@ if(playBtn.innerText=='play_arrow'){
 }else{
     musicPause();
 }
+listClassActive();
 });
 nextBtn.addEventListener('click', ()=>{
 nextMusic();
@@ -121,6 +127,7 @@ const listBox = musicApp.querySelector('.play_list');
 const fragment = document.createDocumentFragment();
 for(let i=0; i<musicList.length; i++){
 let li = document.createElement('li');
+li.setAttribute('data-index',i); /* ---- 테스트 개선사항 ----*/
 li.innerHTML=`<strong>${musicList[i].name}</strong> <em>${musicList[i].artist}</em>`;
 fragment.appendChild(li);
 }
@@ -130,6 +137,31 @@ listBtn.addEventListener('click',()=>{
 listBox.classList.toggle('active');
 });
 
+/* ---- 테스트 개선 사항 ----- */
+const musicListName = listBox.querySelectorAll('li');
+
+const listClassActive=()=>{
+    musicListName.forEach((list)=>{
+        if(list_index==list.getAttribute('data-index')){
+            list.classList.add('active');
+        }else{
+            list.classList.remove('active');
+        }
+    });
+}
+
+musicListName.forEach((list)=>{
+    list.addEventListener('click',(e)=>{
+        list_index = e.currentTarget.dataset.index;
+        listClassActive();
+        loadMusic(list_index);
+        musicPlay();
+    });
+})
+
+
+/*
+-----------------테스트 개선 사항 ---------------------------
 volumeBtn.addEventListener('click',(e)=>{
 e.target.classList.toggle('open');
 volumeCtrl.classList.toggle('hidden');
@@ -147,3 +179,20 @@ if(currVol==0){
     volumeBtn.innerHTML='volume_down';
 }
 });
+*/
+
+volumeBtn.addEventListener('click',(evt)=>{
+    evt.target.classList.toggle('open');
+    volumeCtrl.classList.toggle('hidden');
+});
+volumeRange.addEventListener('change',()=>{
+    musicAudio.volume = volumeRange.value/100;
+    let currentVol = musicAudio.volume;
+    if( currentVol ===0 ){
+        volumeBtn.innerHTML = 'volume_off';
+    }else if( currentVol<= 0.5){
+        volumeBtn.innerHTML = 'volume_down';
+    }else{
+        volumeBtn.innerHTML = 'volume_up';
+    }
+})

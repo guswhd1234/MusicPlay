@@ -4,7 +4,7 @@
     :root{
     --color:#fc0;       --body-bg:#96c;        --play-bg:#7E7CF5;
     --color-light:#ffffff;     --color-shadow:#babecc;   --text-color:#FFF4F4;
-    --bar-bg:#3ECA87;          --text-size:30px;
+    --bar-bg:#3ECA87;          --text-size:24px;
     }
     body{
     height:100vh; background:linear-gradient(var(--body-bg),var(--color)) ; 
@@ -13,7 +13,7 @@
     .player_body{
     width:360px; padding:25px 30px; border-radius:16px; background:var(--play-bg);
     user-select:none;  position:relative;
-    box-shadow: 6px 5px 10px 0px var(--text-color), 
+    box-shadow: 6px 5px 10px 0px var(--text-color),  
                 7px 7px 5px 0px var(--color-light) inset,
                 -7px -7px 5px 0px var(--color-shadow) inset;
     }
@@ -21,10 +21,11 @@
     .top>h2{
     font-size:var(--text-size);  font-weight:500;  color:var(--text-color); text-align:center;
     text-shadow:1px 1px 1px var(--color-light), -1px -1px 1px #151515;
+    margin-bottom:50px;
     }
     .album{
     width:260px; height:260px;  border-radius:50%;  overflow:hidden;
-    margin:10px auto; 
+    margin:20px auto; 
     }
     .album>img{
     width:100%;  height:100%;  object-fit:cover;  object-position:center bottom;
@@ -77,6 +78,7 @@
     }
     .play_list li>strong{ font-weight:normal;  }
     .play_list li>em{  font-style:normal;  font-size:12px;  }
+    /*
     .volume{
         width:30px; 
         height:30px; 
@@ -96,7 +98,6 @@
     .volume:active,.volume:hover>.volumeBtn{
         display:block;
     }
-    */
     .volume:hover>#rangebar{
         display:block;
     }
@@ -106,4 +107,63 @@
     #volumeRange{
         -webkit-appearance: none;
         appearance: none;
+    }
+    */
+    /* 테스트 이후 개선사항 */
+    .play_list li.active{ color:#d9a6a6;}
+    .volume{ 
+      position:relative; 
+      text-align:right;
+      margin-top:5px; 
+      cursor: pointer;
+      bottom:-60px;
+    }
+    .volume>#volume-btn{ cursor: pointer; }
+    .volume>#volume-btn.open{ color:#11589e; }
+    .volume>#volume-ctrl{
+      position:absolute;
+      right:0px; 
+      bottom:29px;
+      width:30px; 
+      height:130px; 
+      background:rgba(0,25,255,0.8);
+      border-radius:6px;
+    }
+    .volume>#volume-ctrl.hidden{ display:none; }
+    .volume>#volume-ctrl>.volumebg{
+      width:6px; 
+      height:90%;
+      border-radius: 3px;
+      background:rgba(255,255,255,0.4);
+      position:absolute;
+      left:50%;
+      top:50%;
+      transform: translate(-50%,-50%); 
+      overflow: hidden;
+    }
+    .volume>#volume-ctrl>.volumebg>.volumerange{
+      transform-origin: center right;
+      transform: rotate(270deg);
+      -webkit-appearance: none;
+      position:absolute; 
+      cursor: pointer;
+      right:1px; 
+      top:-10px; 
+      width:121px; 
+    }
+    .volume>#volume-ctrl>.volumebg>.volumerange:focus{
+      outline: none;
+    }
+    .volume>#volume-ctrl>.volumebg>.volumerange::-webkit-slider-runnable-track{
+      width:100%;
+      height:100%;
+      border-radius: 3px;
+    }
+    .volume>#volume-ctrl>.volumebg>.volumerange::-webkit-slider-thumb{
+      width:0px;
+      height:6px;
+      border-radius: 3px;
+      background:#fff;
+      -webkit-appearance: none;
+      box-shadow:-100vw 0 0 100vw #9eb2db;
     }
